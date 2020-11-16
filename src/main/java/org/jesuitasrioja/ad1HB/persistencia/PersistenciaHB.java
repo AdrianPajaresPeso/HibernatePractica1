@@ -11,6 +11,12 @@ import org.jesuitasrioja.ad1HB.utils.HibernateUtil;
 
 public class PersistenciaHB implements IPersistencia{
 
+	private Session createSession() {
+		SessionFactory sf = HibernateUtil.newSessionFactory();
+		Session s = sf.openSession();
+		return s;
+	}
+	
 	@Override
 	public Set<City> listaCiudades() {
 		Set<City> returnSet = null;
@@ -108,10 +114,6 @@ public class PersistenciaHB implements IPersistencia{
 		return null;
 	}
 	
-	private Session createSession() {
-		SessionFactory sf = HibernateUtil.newSessionFactory();
-		Session s = sf.openSession();
-		return s;
-	}
+	
 
 }
