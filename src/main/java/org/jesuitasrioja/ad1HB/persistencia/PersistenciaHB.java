@@ -1,26 +1,45 @@
 package org.jesuitasrioja.ad1HB.persistencia;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.jesuitasrioja.ad1HB.utils.HibernateUtil;
 
 public class PersistenciaHB implements IPersistencia{
 
 	@Override
 	public Set<City> listaCiudades() {
-		// TODO Auto-generated method stub
-		return null;
+		Set<City> returnSet = null;
+		Session s = createSession();
+		
+		Query q = s.createQuery("Select * from ciudad");
+
+		returnSet = new HashSet<>(q.getResultList());
+		s.close();
+		return returnSet;
 	}
 
 	@Override
 	public Set<Country> listaPaises() {
-		// TODO Auto-generated method stub
-		return null;
+		Set<Country> setPaises = null;
+		Session s = createSession();
+		
+		Query q = s.createQuery("Select * from pais");
+		
+		setPaises = new HashSet<>(q.getResultList());
+		s.close();
+		return setPaises;
 	}
 
 	@Override
 	public Boolean existeCiudad(Integer codigoCiudad) {
-		// TODO Auto-generated method stub
-		return null;
+		Boolean flag = false;
+		Session s = createSession();
+		return flag;
 	}
 
 	@Override
@@ -87,6 +106,12 @@ public class PersistenciaHB implements IPersistencia{
 	public Set<Countrylanguage> listaIdiomas(String codigoPais) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	private Session createSession() {
+		SessionFactory sf = HibernateUtil.newSessionFactory();
+		Session s = sf.openSession();
+		return s;
 	}
 
 }
