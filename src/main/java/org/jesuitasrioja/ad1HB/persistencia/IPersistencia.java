@@ -27,7 +27,7 @@ public interface IPersistencia {
 
 	public void aniadirCiudad(City nuevaCiudad);
 
-	public void aniadirPais(Country nuevaCiudad);
+	public void aniadirPais(Country nuevoPais);
 
 	public List<Countrylanguage> getAllLanguages();
 

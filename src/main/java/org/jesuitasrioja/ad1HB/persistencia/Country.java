@@ -3,7 +3,7 @@ package org.jesuitasrioja.ad1HB.persistencia;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -12,14 +12,16 @@ import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.EqualsAndHashCode.Include;
 import lombok.NoArgsConstructor;
 
 
-@Entity @Table(name = "pais")
-@Data @NoArgsConstructor @AllArgsConstructor
+@Entity @Table(name = "Country")
+@Data @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Country implements Serializable{
 	
-	@Id	@Column(name = "codigoPais")
+	@Id @Include
 	private String code;
 	private String name;
 	private String continent;
@@ -34,7 +36,7 @@ public class Country implements Serializable{
 	private String governmentForm;
 	private String headOfState;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private City capital;
 	private String code2;
 	

@@ -5,22 +5,18 @@ import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.jesuitasrioja.ad1HB.utils.HibernateUtil;
 
 public class PersistenciaHB implements IPersistencia{
 
-	private Session createSession() {
-		SessionFactory sf = HibernateUtil.newSessionFactory();
-		Session s = sf.openSession();
-		return s;
-	}
+	
 	
 	@Override
 	public Set<City> listaCiudades() {
 		Set<City> returnSet = null;
-		Session s = createSession();
+		Session s = HibernateUtil.createSession();
 		
 		Query q = s.createQuery("Select * from ciudad");
 
@@ -32,7 +28,7 @@ public class PersistenciaHB implements IPersistencia{
 	@Override
 	public Set<Country> listaPaises() {
 		Set<Country> setPaises = null;
-		Session s = createSession();
+		Session s = HibernateUtil.createSession();
 		
 		Query q = s.createQuery("Select * from pais");
 		
@@ -44,7 +40,11 @@ public class PersistenciaHB implements IPersistencia{
 	@Override
 	public Boolean existeCiudad(Integer codigoCiudad) {
 		Boolean flag = false;
-		Session s = createSession();
+		Session s = HibernateUtil.createSession();
+		
+		
+		
+		s.close();
 		return flag;
 	}
 
@@ -92,25 +92,40 @@ public class PersistenciaHB implements IPersistencia{
 
 	@Override
 	public void aniadirCiudad(City nuevaCiudad) {
-		// TODO Auto-generated method stub
+		Session s = HibernateUtil.createSession();
+		Transaction t = s.beginTransaction();
+	
+		s.save(nuevaCiudad);
 		
+		t.commit();
+		s.close();
 	}
 
 	@Override
-	public void aniadirPais(Country nuevaCiudad) {
-		// TODO Auto-generated method stub
+	public void aniadirPais(Country nuevoPais) {
+		Session s = HibernateUtil.createSession();
+		Transaction t = s.beginTransaction();
+		
+		
+		s.save(nuevoPais);
+
+		t.commit();
+		s.close();
 		
 	}
 
 	@Override
 	public List<Countrylanguage> getAllLanguages() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Countrylanguage> listaRetorno = null;
+		Session s = HibernateUtil.createSession();
+		
+		s.close();
+		return listaRetorno;
 	}
 
 	@Override
 	public Set<Countrylanguage> listaIdiomas(String codigoPais) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 	
