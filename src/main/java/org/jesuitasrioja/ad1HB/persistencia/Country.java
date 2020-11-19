@@ -40,7 +40,7 @@ public class Country implements Serializable{
 	private City capital;
 	private String code2;
 	
-	@OneToMany(mappedBy = "countryLanguageID.country")
+	@OneToMany(mappedBy = "countryLanguageID.country", cascade = CascadeType.ALL)
 	List<Countrylanguage> listOfLanguages;
 
 }

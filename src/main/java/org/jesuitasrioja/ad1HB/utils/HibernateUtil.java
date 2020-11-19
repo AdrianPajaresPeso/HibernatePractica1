@@ -17,7 +17,7 @@ public class HibernateUtil {
 	}
 
 	/**
-	 * Este método es el encargado de utilizar el session factory ya creado para
+	 * Este metodo es el encargado de utilizar el session factory ya creado para
 	 * abrir una nueva sesion, esto hace que solo tengamos que cerrarla en el metodo
 	 * al que queramos llamar
 	 * 
