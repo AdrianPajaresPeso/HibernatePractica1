@@ -5,16 +5,20 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.EqualsAndHashCode.Include;
 import lombok.NoArgsConstructor;
+import lombok.ToString.Exclude;
 
 
 @Entity @Table(name = "Country")
@@ -40,7 +44,8 @@ public class Country implements Serializable{
 	private City capital;
 	private String code2;
 	
-	@OneToMany(mappedBy = "countryLanguageID.country", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "countryLanguageID.country", cascade = CascadeType.ALL, fetch = FetchType.EAGER ) 
 	List<Countrylanguage> listOfLanguages;
 
 }
+//, fetch = FetchType.EAGER

@@ -5,12 +5,20 @@ import java.io.Serializable;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.ToString.Exclude;
 
 @Embeddable
-public class CountryLanguageID implements Serializable{
-	
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class CountryLanguageID implements Serializable {
+
 	private String language;
 
-	@ManyToOne
+	@ManyToOne @Exclude
 	private Country country;
 }

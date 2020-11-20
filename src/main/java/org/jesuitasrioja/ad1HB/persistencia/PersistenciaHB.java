@@ -25,12 +25,12 @@ public class PersistenciaHB implements IPersistencia {
 
 	@Override
 	public Set<Country> listaPaises() {
-		Set<Country> setPaises = null;
+
 		Session s = HibernateUtil.createSession();
-		
+
 		Query q = s.createQuery("from Country");
 
-		setPaises = new HashSet<>(q.getResultList());
+		Set<Country> setPaises = new HashSet<>(q.getResultList());
 		s.close();
 		return setPaises;
 	}
@@ -76,7 +76,7 @@ public class PersistenciaHB implements IPersistencia {
 	public Country getCountry(String codigoPais) {
 		Country co = null;
 		Session s = HibernateUtil.createSession();
-		
+
 		s.get(Country.class, codigoPais);
 		s.close();
 		return co;
@@ -84,8 +84,16 @@ public class PersistenciaHB implements IPersistencia {
 
 	@Override
 	public Set<City> listaCiudades(String nombrePais) {
-		
-		return null;
+		Set<City> setRetorno = null;
+		Session s = HibernateUtil.createSession();
+
+		Query q = s.createQuery("from City as ci where ci.country.name = :countryName");
+		q.setParameter("countryName", nombrePais);
+
+		setRetorno = new HashSet<>(q.getResultList());
+		s.close();
+
+		return setRetorno;
 	}
 
 	@Override
@@ -115,8 +123,23 @@ public class PersistenciaHB implements IPersistencia {
 
 	@Override
 	public Boolean cambiarNombreCiudad(Integer codigoCiudad, String nuevoNombre) {
-		// TODO Auto-generated method stub
-		return null;
+		Boolean flag = false;
+		Session s = HibernateUtil.createSession();
+		Transaction t = s.beginTransaction();
+
+		City city = s.get(City.class, codigoCiudad);
+		if (!nuevoNombre.equals(city.getName())) {
+			flag = true;
+		}
+
+		city.setName(nuevoNombre);
+		s.update(city);
+
+		t.commit();
+
+		s.close();
+
+		return flag;
 	}
 
 	@Override
@@ -148,7 +171,7 @@ public class PersistenciaHB implements IPersistencia {
 		Session s = HibernateUtil.createSession();
 
 		Query q = s.createQuery("from Countrylanguage");
-		listaRetorno.addAll(q.getResultList());
+		listaRetorno = q.getResultList();
 		s.close();
 		return listaRetorno;
 	}
@@ -158,11 +181,12 @@ public class PersistenciaHB implements IPersistencia {
 		Set<Countrylanguage> setRetorno = null;
 		Session s = HibernateUtil.createSession();
 
-		System.out.println(s.get(Countrylanguage.class, codigoPais).toString());
-		
+		Query q = s.createQuery("from Countrylanguage cl where cl.countryLanguageID.country.code = :code");
+		q.setParameter("code", codigoPais);
+		setRetorno = new HashSet<>(q.getResultList());
 
 		s.close();
-		return null;
+		return setRetorno;
 	}
 
 }
